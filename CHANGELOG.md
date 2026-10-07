@@ -2,7 +2,7 @@
 
 This file tracks the R2 repository version. The pinned R1 and R3 commits and the shared-standard version are stated in each entry and in `standard/standard-reference.yaml`.
 
-## [0.1.0] Unreleased
+## [0.1.0] 2026-10-07
 
 Pinned R1 v0.1.0 at commit `5adf58a08f039f44b05e50c6ceb9750ed6fb5027` and R3 v0.1.0 at commit `dc498db3ca0263f6b9083e3a43cf9b247654b9ff`. Shared standard 1.0.0.
 

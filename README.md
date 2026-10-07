@@ -2,7 +2,7 @@
 
 Deterministic workload, capacity, staffing, and organization-stage modeling for implementation teams (cost-to-serve is planned for a later version). A Python reference calculator turns implementation workload into demand, effective capacity, capacity gaps, load ratios, training and launch-support hours, and staffing signals that support a staffing conversation. It never makes the decision.
 
-> **Status: version 0.1.0, unreleased.** Reference implementation built on shared standard 1.0.0 and pinned to R1 [`implementation-operating-system`](https://github.com/jmuldroweoi-sys/implementation-operating-system) v0.1.0 and R3 [`implementation-tracker-workbook`](https://github.com/jmuldroweoi-sys/implementation-tracker-workbook) v0.1.0 ([`standard/standard-reference.yaml`](standard/standard-reference.yaml)). It has not been historically deployed as this exact model. Every number in the bundled data is synthetic data, and nothing here reports a measured result. Cost-to-serve is planned for a later version; v0.1 does not calculate it.
+> **Status: version 0.1.0, released 2026-10-07 (tag `v0.1.0`).** Reference implementation built on shared standard 1.0.0 and pinned to R1 [`implementation-operating-system`](https://github.com/jmuldroweoi-sys/implementation-operating-system) v0.1.0 and R3 [`implementation-tracker-workbook`](https://github.com/jmuldroweoi-sys/implementation-tracker-workbook) v0.1.0 ([`standard/standard-reference.yaml`](standard/standard-reference.yaml)). It has not been historically deployed as this exact model. Every number in the bundled data is synthetic data, and nothing here reports a measured result. Cost-to-serve is planned for a later version; v0.1 does not calculate it.
 
 **How the three repositories fit:** R1 defines how implementation work operates (lifecycle, records, rules, events). R3 is the working tracker where one implementation professional runs that work and exports Capacity Inputs once a month. R2, this repository, consumes that workload and translates it into capacity and staffing-planning signals. R4 `implementation-enablement-program`, the companion enablement repository (published under the same account after R2), owns training demand and ramp, which R2 reads as inputs. R2 does not replace R1, R3, or R4 and never changes their records.
 
@@ -113,7 +113,7 @@ AI assisted with this repository: Claude (Anthropic) helped structure the docume
 
 | Version | Value |
 |---|---|
-| Repository (R2) | 0.1.0, unreleased (`CHANGELOG.md`) |
+| Repository (R2) | 0.1.0, released 2026-10-07, tag `v0.1.0` (`CHANGELOG.md`) |
 | Calculation version | 0.1.0 |
 | R2 record schemas | 0.1.0 |
 | Shared standard | 1.0.0 |
