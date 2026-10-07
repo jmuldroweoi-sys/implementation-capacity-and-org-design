@@ -12,7 +12,7 @@
 | Private build verification | PASS: `tools/capacity_calc.py --check`, validator 48 of 48, full test suite (see `R2-V0.1-CHECKLIST.md`) |
 | Publication gate, pre-release profile | Run before the first private push with the private blocklist and source fingerprints, both kept outside every repository; result recorded in the private portfolio workspace |
 | Publication-readiness review | Done 2026-10-07 (portfolio step 7P-1): documentation-only polish; prerelease gate PASS; strict publication profile passes every rule except this unsigned review; results recorded in the private portfolio workspace |
-| Human release review | Not yet performed |
+| Human release review | Signed PASS by Jared Muldrow, 2026-10-07 (see Human review below) |
 | Publication approval | Not given |
 
 ## Public-safety checklist
@@ -36,3 +36,13 @@
 4. The author's explicit approval of publication.
 
 No release, tag, or visibility change happens before all four.
+
+## Human review
+
+Signed by the author in writing on 2026-10-07 ("Signed: R2 and R4 release review PASS, October 7, 2026"), covering this repository and its companion `implementation-enablement-program` as one pair, and recorded here at the author's instruction. Reviewed candidate: the 7P-1 commit `6821f463332839fd18169df9e0247eacb973fabf` (documentation-only polish); this record is the only change after it.
+
+- Reviewer: Jared Muldrow
+- Date: 2026-10-07
+- Verdict: PASS
+
+The signed review is not publication approval. Making the repository public and creating its release tag each need the author's separate explicit approval.
