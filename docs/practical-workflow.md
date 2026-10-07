@@ -13,8 +13,8 @@ The first working day of each month, after R3's monthly Capacity Inputs export. 
 | Capacity Inputs (task, request, handoff, and phase hours) | R3 | `upstream/r3/exports/csv/capacity-inputs.csv` (pinned) |
 | Forecast projects and complexity tiers | The implementation professional | `projects` in `data/synthetic/universe.yaml` |
 | People, roles, scheduled hours, allowances | The implementation professional or lead | `people` in `data/synthetic/universe.yaml` |
-| Ramp factors and mentoring | R4 (interface fixtures until R4 exists) | `people` overrides in `data/synthetic/universe.yaml` |
-| Training demand | R4 (interface fixtures until R4 exists) | `training_demand` in `data/synthetic/universe.yaml` |
+| Ramp factors and mentoring | R4 (interface fixtures in R4's shape; R2 v0.1 does not read R4 directly) | `people` overrides in `data/synthetic/universe.yaml` |
+| Training demand | R4 (interface fixtures in R4's shape; R2 v0.1 does not read R4 directly) | `training_demand` in `data/synthetic/universe.yaml` |
 | Launch-support plans | The implementation professional, from R1 launch dates | `golive_support` in `data/synthetic/universe.yaml` |
 | Thresholds, curves, drivers, defaults | The team (each a user-configurable parameter) | `config/`, `profiles/` |
 
@@ -50,7 +50,7 @@ The first working day of each month, after R3's monthly Capacity Inputs export. 
 ### Step 4: Update ramp factors
 
 - **Input:** Each new person's ramp factor for the month and who mentors them.
-- **File or entity:** `ramp_factor`, `mentor`, and `mentor_hours` overrides in `data/synthetic/universe.yaml`. Ramp is owned by R4; until R4 exists these are interface fixtures.
+- **File or entity:** `ramp_factor`, `mentor`, and `mentor_hours` overrides in `data/synthetic/universe.yaml`. Ramp is owned by R4; R2 v0.1 keeps these as interface fixtures and does not read R4 directly.
 - **Deterministic rule:** `ramp_adjusted_hours = project_available_hours x ramp_factor`; ramp loss stays on the ramping person; mentoring hours reduce only the mentor; a mentor's record and the mentee's record must name each other.
 - **Output:** `ramp_loss_hours` and `mentor_hours` on the supply records.
 - **Human decision:** The ramp factor and mentoring time for each new person.

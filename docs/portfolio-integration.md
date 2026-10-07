@@ -8,7 +8,7 @@ R2 is one repository in a six-repository implementation portfolio that shares on
 |---|---|---|---|
 | R1 `implementation-operating-system` | Shared standard (IDs, events, labels, lifecycle phases, recommendation and event contracts), R1 projects, tasks, and roles | Pinned copies in `upstream/r1/` at v0.1.0 | Live |
 | R3 `implementation-tracker-workbook` | Capacity Inputs: task, request, handoff, and phase hours with inclusion methods | Pinned copy in `upstream/r3/` at v0.1.0 | Live |
-| R4 `implementation-enablement-program` | Training demand, session hours, ramp factors and duration | Interface fixtures in the planned R4 shape | Not built; fixtures only |
+| R4 `implementation-enablement-program` | Training demand, session hours, ramp factors and duration | Interface fixtures in R4's shape | R4 v0.1 is built; R2 v0.1 still reads fixtures, not R4 records |
 | R5 `implementation-team-management-toolkit` | Aggregated management workload hours | Not read in v0.1 | Later |
 | R6 `implementation-ai-agent-framework` | AI review workload hours | Not read in v0.1 | Later |
 

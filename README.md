@@ -1,10 +1,10 @@
 # implementation-capacity-and-org-design
 
-Deterministic workload, capacity, staffing, organization-stage and cost-to-serve modeling for implementation teams. A Python reference calculator turns implementation workload into demand, effective capacity, capacity gaps, load ratios, training and launch-support hours, and staffing signals that support a staffing conversation. It never makes the decision.
+Deterministic workload, capacity, staffing, and organization-stage modeling for implementation teams (cost-to-serve is planned for a later version). A Python reference calculator turns implementation workload into demand, effective capacity, capacity gaps, load ratios, training and launch-support hours, and staffing signals that support a staffing conversation. It never makes the decision.
 
 > **Status: version 0.1.0, unreleased.** Reference implementation built on shared standard 1.0.0 and pinned to R1 [`implementation-operating-system`](https://github.com/jmuldroweoi-sys/implementation-operating-system) v0.1.0 and R3 [`implementation-tracker-workbook`](https://github.com/jmuldroweoi-sys/implementation-tracker-workbook) v0.1.0 ([`standard/standard-reference.yaml`](standard/standard-reference.yaml)). It has not been historically deployed as this exact model. Every number in the bundled data is synthetic data, and nothing here reports a measured result. Cost-to-serve is planned for a later version; v0.1 does not calculate it.
 
-**How the three repositories fit:** R1 defines how implementation work operates (lifecycle, records, rules, events). R3 is the working tracker where one implementation professional runs that work and exports Capacity Inputs once a month. R2, this repository, consumes that workload and translates it into capacity and staffing-planning signals. R2 does not replace R1 or R3 and never changes their records.
+**How the three repositories fit:** R1 defines how implementation work operates (lifecycle, records, rules, events). R3 is the working tracker where one implementation professional runs that work and exports Capacity Inputs once a month. R2, this repository, consumes that workload and translates it into capacity and staffing-planning signals. R4 `implementation-enablement-program`, the companion enablement repository (published under the same account after R2), owns training demand and ramp, which R2 reads as inputs. R2 does not replace R1, R3, or R4 and never changes their records.
 
 ## Purpose
 
@@ -59,7 +59,7 @@ For each scenario, role, and month, `capacity_gap_hours = demand_hours - effecti
 
 ## Training capacity
 
-Training demand reaches R2 only from the enablement repository (R4, V4 decision D10). R4 is not built yet, so v0.1 reads interface fixtures in the planned R4 shape. Cohorts and sessions round up; trainer hours are delivery plus preparation plus assessment; learner seat-hours are reported for context and are never trainer workload. See [`docs/training-capacity-model.md`](docs/training-capacity-model.md).
+Training demand reaches R2 only from the enablement repository (R4, V4 decision D10). R2 v0.1 does not read R4 directly: it reads interface fixtures in R4's training-demand shape, and R4 v0.1 documents how its own records map to that shape. Cohorts and sessions round up; trainer hours are delivery plus preparation plus assessment; learner seat-hours are reported for context and are never trainer workload. See [`docs/training-capacity-model.md`](docs/training-capacity-model.md).
 
 ## Launch-support capacity
 
@@ -100,7 +100,7 @@ The validator runs 48 checks, recomputing every formula from raw record fields; 
 
 - Monthly periods only (`YYYY-MM`); weekly planning is not modeled.
 - Demand and supply are forecasts. Actual hours are carried for comparison but v0.1 has no actual-supply records.
-- Training demand and ramp factors are R4 interface fixtures until R4 exists.
+- Training demand and ramp factors are interface fixtures in R4's shape; R2 v0.1 does not read R4 records directly.
 - Cost-to-serve, builder capacity, executive metric registrations, and a spreadsheet version of the model are planned for later versions.
 - Thresholds, curves, and effort drivers are illustrative examples; a team must set its own.
 - The model can help surface a staffing conversation. It cannot say whether to hire, budget, reorganize, or reassign anyone.

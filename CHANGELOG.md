@@ -16,6 +16,14 @@ Pinned R1 v0.1.0 at commit `5adf58a08f039f44b05e50c6ceb9750ed6fb5027` and R3 v0.
 - `tools/validate.py` (48 checks) and unit, output, and negative tests with deliberate negative fixtures.
 - Documentation: README, architecture, practical workflow (12 steps, Starter Mode, Mature Mode), demand, supply, capacity, training, launch-support, staffing-trigger, and organization-design models, source precedence, portfolio integration, formulas with executable worked examples, and verification records.
 
+### Changed (documentation, 2026-10-07 publication-readiness review)
+
+- README opening no longer lists cost-to-serve as current modeling; it is stated as planned for a later version.
+- README names how R4 fits beside R1 and R3, without a link that would not work before R4 is published.
+- Status wording updated in the README and the practical-workflow, supply, training-capacity, and portfolio-integration documents: R4 v0.1 exists, and R2 v0.1 still reads interface fixtures in R4's shape rather than R4 records. Configuration and data comments are unchanged because their bytes feed the configuration digest.
+- `tests/test_docs.py` guards these three wording fixes.
+- `verification/release-gate.md` records the readiness review; the human release review is still unsigned.
+
 ### Not in this version
 
 - Cost-to-serve (`CTS`) and builder capacity (`BLD`) are reserved and unused; no `cost_to_serve.computed` event is produced.

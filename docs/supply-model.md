@@ -28,7 +28,7 @@ There is no universal productive percentage. Every reduction is an explicit allo
 
 ## Ramp
 
-A ramping person's `ramp_factor` is between 0 and 1; a fully ramped person's is 1. Ramp is owned by the enablement repository (R4): R2 reads factors and owns no ramp definition. Until R4 exists, factors below 1 are interface fixtures and are marked `ramp_source: r4_interface_fixture`. The lost hours are recorded once, as the ramping person's own `ramp_loss_hours`.
+A ramping person's `ramp_factor` is between 0 and 1; a fully ramped person's is 1. Ramp is owned by the enablement repository (R4): R2 reads factors and owns no ramp definition. In R2 v0.1, factors below 1 are interface fixtures and are marked `ramp_source: r4_interface_fixture`. The lost hours are recorded once, as the ramping person's own `ramp_loss_hours`.
 
 ## Mentoring
 

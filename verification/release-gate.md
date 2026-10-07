@@ -11,6 +11,7 @@
 | Pinned R3 | v0.1.0, commit `dc498db3ca0263f6b9083e3a43cf9b247654b9ff` |
 | Private build verification | PASS: `tools/capacity_calc.py --check`, validator 48 of 48, full test suite (see `R2-V0.1-CHECKLIST.md`) |
 | Publication gate, pre-release profile | Run before the first private push with the private blocklist and source fingerprints, both kept outside every repository; result recorded in the private portfolio workspace |
+| Publication-readiness review | Done 2026-10-07 (portfolio step 7P-1): documentation-only polish; prerelease gate PASS; strict publication profile passes every rule except this unsigned review; results recorded in the private portfolio workspace |
 | Human release review | Not yet performed |
 | Publication approval | Not given |
 

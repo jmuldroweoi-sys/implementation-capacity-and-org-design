@@ -4,7 +4,7 @@ How training work becomes trainer workload, and how R2 keeps learner time out of
 
 ## Where training demand comes from
 
-Training demand (`TRD`) reaches R2 only from the enablement repository (R4, V4 decision D10). R1 does not export training fields, so training hours are never counted from two places. R4 is not built yet: every v0.1 training-demand record is an **interface fixture** in the planned R4 shape, marked `source: r4_interface_fixture`. R2 defines no curriculum, course, or track; it only reads the numbers it needs.
+Training demand (`TRD`) reaches R2 only from the enablement repository (R4, V4 decision D10). R1 does not export training fields, so training hours are never counted from two places. R2 v0.1 does not read R4 directly: every v0.1 training-demand record is an **interface fixture** in R4's shape, marked `source: r4_interface_fixture`. R2 defines no curriculum, course, or track; it only reads the numbers it needs.
 
 | Field | Meaning | Unit |
 |---|---|---|
