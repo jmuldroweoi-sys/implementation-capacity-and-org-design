@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:implementation-capacity-and-org-design:0.1.0:staffing-trigger",
+  "title": "Staffing trigger",
+  "description": "A configured condition that signals a staffing conversation is due (registry prefix STG). It never means hire someone. Persistence and hysteresis counts are named parameters in config/parameters.yaml, each a user-configurable parameter and a proposed design value, not a measured result. Examples are an illustrative example using synthetic data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "staffing_trigger_id",
+    "name",
+    "description",
+    "above_condition",
+    "below_condition",
+    "fire_after_parameter",
+    "clear_after_parameter",
+    "recommendation_type",
+    "labels"
+  ],
+  "properties": {
+    "staffing_trigger_id": {
+      "type": "string",
+      "pattern": "^STG-[0-9]{6}$"
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "above_condition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "below_condition": {
+      "type": "string",
+      "minLength": 1
+    },
+    "fire_after_parameter": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "clear_after_parameter": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "recommendation_type": {
+      "type": "string",
+      "enum": [
+        "begin_staffing_review",
+        "review_role_coverage",
+        "investigate_role_mix",
+        "consider_workload_rebalance",
+        "review_hiring_timing",
+        "validate_forecast_assumptions"
+      ]
+    },
+    "labels": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "contains": {
+        "const": "user-configurable parameter"
+      }
+    }
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:implementation-capacity-and-org-design:0.1.0:training-demand",
+  "title": "Training demand",
+  "description": "Training workload received for capacity planning (registry prefix TRD). Training demand reaches R2 only from the enablement repository (V4 D10). R4 is not built yet, so every v0.1 record is an R4 interface fixture in the planned shape; R2 defines no curriculum. Null class size, session length, or preparation hours take the default parameters. Examples are an illustrative example using synthetic data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "training_demand_id",
+    "scenario_id",
+    "period",
+    "track_label",
+    "learner_count",
+    "track_hours",
+    "trainer_role_id",
+    "capacity_inclusion_method",
+    "source",
+    "schema_version"
+  ],
+  "properties": {
+    "training_demand_id": {
+      "type": "string",
+      "pattern": "^TRD-[0-9]{6}$"
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^SCN-[0-9]{6}$"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^PRJ-[0-9]{6}$"
+    },
+    "period": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+      "description": "Monthly planning period, YYYY-MM."
+    },
+    "track_label": {
+      "type": "string",
+      "minLength": 1
+    },
+    "learner_count": {
+      "type": "integer",
+      "x-unit": "learners",
+      "description": "Learners to train.",
+      "minimum": 0
+    },
+    "class_size": {
+      "type": "integer",
+      "x-unit": "learners",
+      "description": "Learners per cohort.",
+      "minimum": 1
+    },
+    "track_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Contact hours of the track per cohort.",
+      "minimum": 0,
+      "exclusiveMinimum": 0
+    },
+    "session_length_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Length of one session.",
+      "minimum": 0,
+      "exclusiveMinimum": 0
+    },
+    "prep_hours_per_session": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Trainer preparation per delivered session.",
+      "minimum": 0
+    },
+    "assessment_hours_per_cohort": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Trainer assessment or remediation hours per cohort, where supplied.",
+      "minimum": 0
+    },
+    "trainer_role_id": {
+      "type": "string",
+      "pattern": "^ROL-[0-9]{6}$"
+    },
+    "capacity_inclusion_method": {
+      "type": "string",
+      "enum": [
+        "authoritative_workload",
+        "informational_only",
+        "excluded_to_prevent_double_count"
+      ],
+      "description": "Only authoritative_workload enters demand."
+    },
+    "covered_by": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}-[0-9]{6}$",
+      "description": "The R1 task or R3 component that already counts this work."
+    },
+    "source": {
+      "type": "string",
+      "const": "r4_interface_fixture"
+    },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "capacity_inclusion_method": {
+            "const": "excluded_to_prevent_double_count"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "covered_by"
+        ]
+      }
+    }
+  ]
+}

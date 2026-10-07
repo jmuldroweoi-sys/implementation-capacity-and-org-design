@@ -1,0 +1,19 @@
+person_id,person_label,scenario_id,role_id,scheduled_work_hours,non_project_hours,first_period,ramp_state,mentor_of,unit,schema_version
+PER-000001,Person A,SCN-000001,ROL-000001,112,16,2026-09,fully_ramped,,hours,0.1.0
+PER-000001,Person A,SCN-000001,ROL-000004,24,0,2026-09,fully_ramped,,hours,0.1.0
+PER-000001,Person A,SCN-000001,ROL-000005,16,0,2026-09,fully_ramped,,hours,0.1.0
+PER-000001,Person A,SCN-000001,ROL-000006,8,0,2026-09,fully_ramped,,hours,0.1.0
+PER-000002,Person B,SCN-000002,ROL-000001,160,24,2026-09,fully_ramped,,hours,0.1.0
+PER-000006,Person F,SCN-000002,ROL-000004,160,16,2026-09,fully_ramped,PER-000007,hours,0.1.0
+PER-000007,Person G,SCN-000002,ROL-000004,160,8,2026-11,ramping,,hours,0.1.0
+PER-000003,Person C,SCN-000003,ROL-000001,160,32,2026-09,fully_ramped,,hours,0.1.0
+PER-000009,Person M,SCN-000003,ROL-000004,160,16,2026-09,fully_ramped,,hours,0.1.0
+PER-000008,Person H,SCN-000003,ROL-000005,160,24,2026-09,fully_ramped,,hours,0.1.0
+PER-000005,Person E,SCN-000003,ROL-000006,160,40,2026-09,fully_ramped,,hours,0.1.0
+PER-000010,Person I,SCN-000004,ROL-000001,160,24,2026-09,fully_ramped,,hours,0.1.0
+PER-000011,Person J,SCN-000004,ROL-000001,160,24,2026-09,fully_ramped,,hours,0.1.0
+PER-000012,Person K,SCN-000004,ROL-000004,160,16,2026-09,fully_ramped,,hours,0.1.0
+PER-000015,Person O,SCN-000004,ROL-000004,160,16,2026-09,fully_ramped,,hours,0.1.0
+PER-000016,Person P,SCN-000004,ROL-000004,160,16,2026-09,fully_ramped,,hours,0.1.0
+PER-000013,Person L,SCN-000004,ROL-000005,160,16,2026-09,fully_ramped,,hours,0.1.0
+PER-000014,Person N,SCN-000004,ROL-000006,160,32,2026-09,fully_ramped,,hours,0.1.0

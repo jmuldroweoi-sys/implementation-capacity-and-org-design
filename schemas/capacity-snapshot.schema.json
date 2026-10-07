@@ -1,0 +1,270 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:implementation-capacity-and-org-design:0.1.0:capacity-snapshot",
+  "title": "Capacity snapshot",
+  "description": "Demand, effective capacity (the shared standard's supply), capacity gap, and load ratio for one scenario, role, and monthly period. capacity_gap_hours = demand_hours - effective_capacity_hours (shared standard 1.0.0: positive means more work than capacity). load_ratio = demand_hours / effective_capacity_hours; when effective capacity is zero there is no ratio and load_ratio_state is undefined_no_capacity. Reproducible from inputs_digest, config_digest, calculation_version, and standard_version. Examples are an illustrative example using synthetic data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "capacity_snapshot_id",
+    "scenario_id",
+    "org_stage",
+    "role_id",
+    "period",
+    "role_capacity_id",
+    "project_demand_hours",
+    "training_demand_hours",
+    "golive_support_hours",
+    "demand_hours",
+    "effective_capacity_hours",
+    "capacity_gap_hours",
+    "load_ratio_state",
+    "active_project_count",
+    "active_simple_count",
+    "active_standard_count",
+    "active_complex_count",
+    "max_active_projects_per_role",
+    "concurrency_state",
+    "load_trigger_state",
+    "coverage_trigger_state",
+    "trigger_state",
+    "value_basis",
+    "source_version",
+    "config_digest",
+    "inputs_digest",
+    "calculation_version",
+    "calculated_at",
+    "standard_version",
+    "schema_version"
+  ],
+  "properties": {
+    "capacity_snapshot_id": {
+      "type": "string",
+      "pattern": "^CAP-[0-9]{6}$"
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^SCN-[0-9]{6}$"
+    },
+    "org_stage": {
+      "type": "string",
+      "enum": [
+        "startup",
+        "early_scale",
+        "structured_growth",
+        "mature"
+      ]
+    },
+    "role_id": {
+      "type": "string",
+      "pattern": "^ROL-[0-9]{6}$"
+    },
+    "period": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+      "description": "Monthly planning period, YYYY-MM."
+    },
+    "role_capacity_id": {
+      "type": "string",
+      "pattern": "^RCP-[0-9]{6}$"
+    },
+    "project_demand_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Authoritative demand-record hours.",
+      "minimum": 0
+    },
+    "training_demand_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Authoritative trainer hours. Never learner seat-hours.",
+      "minimum": 0
+    },
+    "golive_support_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Authoritative launch-support hours.",
+      "minimum": 0
+    },
+    "demand_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "project_demand_hours + training_demand_hours + golive_support_hours.",
+      "minimum": 0
+    },
+    "effective_capacity_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Sum of the role's supply-record effective_capacity_hours.",
+      "minimum": 0
+    },
+    "capacity_gap_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "demand_hours - effective_capacity_hours. Positive means more work than capacity."
+    },
+    "load_ratio": {
+      "type": "number",
+      "x-unit": "ratio",
+      "description": "demand_hours / effective_capacity_hours, rounded to ratio_decimal_places. Absent when undefined.",
+      "minimum": 0
+    },
+    "load_ratio_state": {
+      "type": "string",
+      "enum": [
+        "defined",
+        "undefined_no_capacity"
+      ]
+    },
+    "active_project_count": {
+      "type": "integer",
+      "x-unit": "projects",
+      "description": "Distinct projects with authoritative demand for this role and period.",
+      "minimum": 0
+    },
+    "active_simple_count": {
+      "type": "integer",
+      "x-unit": "projects",
+      "description": "Active projects of tier simple.",
+      "minimum": 0
+    },
+    "active_standard_count": {
+      "type": "integer",
+      "x-unit": "projects",
+      "description": "Active projects of tier standard.",
+      "minimum": 0
+    },
+    "active_complex_count": {
+      "type": "integer",
+      "x-unit": "projects",
+      "description": "Active projects of tier complex.",
+      "minimum": 0
+    },
+    "max_active_projects_per_role": {
+      "type": "integer",
+      "x-unit": "projects",
+      "description": "From the selected organization profile; an observation threshold, not a benchmark.",
+      "minimum": 1
+    },
+    "concurrency_state": {
+      "type": "string",
+      "enum": [
+        "within_configured_maximum",
+        "above_configured_maximum"
+      ]
+    },
+    "active_project_ids": {
+      "type": "string",
+      "pattern": "^(PRJ-[0-9]{6}(;PRJ-[0-9]{6})*)?$"
+    },
+    "load_trigger_state": {
+      "type": "string",
+      "enum": [
+        "not_triggered",
+        "watch",
+        "triggered",
+        "clearing"
+      ]
+    },
+    "coverage_trigger_state": {
+      "type": "string",
+      "enum": [
+        "not_triggered",
+        "watch",
+        "triggered",
+        "clearing"
+      ]
+    },
+    "trigger_state": {
+      "type": "string",
+      "enum": [
+        "not_triggered",
+        "watch",
+        "triggered",
+        "clearing"
+      ],
+      "description": "Combined state; precedence triggered, clearing, watch, not_triggered."
+    },
+    "active_trigger_ids": {
+      "type": "string",
+      "pattern": "^(STG-[0-9]{6}(;STG-[0-9]{6})*)?$"
+    },
+    "trigger_events": {
+      "type": "string",
+      "pattern": "^(STG-[0-9]{6}:(fired|cleared)(;STG-[0-9]{6}:(fired|cleared))*)?$"
+    },
+    "value_basis": {
+      "type": "string",
+      "enum": [
+        "forecast",
+        "actual"
+      ]
+    },
+    "source_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "config_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "inputs_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "calculation_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "calculated_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "standard_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "load_ratio_state": {
+            "const": "defined"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "load_ratio"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "load_ratio_state": {
+            "const": "undefined_no_capacity"
+          }
+        }
+      },
+      "then": {
+        "not": {
+          "required": [
+            "load_ratio"
+          ]
+        },
+        "properties": {
+          "effective_capacity_hours": {
+            "const": 0
+          }
+        }
+      }
+    }
+  ]
+}

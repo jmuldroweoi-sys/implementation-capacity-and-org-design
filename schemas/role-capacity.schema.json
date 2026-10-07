@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:implementation-capacity-and-org-design:0.1.0:role-capacity",
+  "title": "Role capacity",
+  "description": "Supply aggregated by scenario, role, and monthly period: the sum of the period's supply records for that role, with every allowance kept visible. Examples are an illustrative example using synthetic data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "role_capacity_id",
+    "scenario_id",
+    "role_id",
+    "period",
+    "person_count",
+    "scheduled_work_hours",
+    "unavailable_hours",
+    "gross_available_hours",
+    "non_project_hours",
+    "training_hours",
+    "other_capacity_reduction_hours",
+    "project_available_hours",
+    "ramp_loss_hours",
+    "mentor_hours",
+    "effective_capacity_hours",
+    "schema_version"
+  ],
+  "properties": {
+    "role_capacity_id": {
+      "type": "string",
+      "pattern": "^RCP-[0-9]{6}$"
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^SCN-[0-9]{6}$"
+    },
+    "role_id": {
+      "type": "string",
+      "pattern": "^ROL-[0-9]{6}$"
+    },
+    "period": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+      "description": "Monthly planning period, YYYY-MM."
+    },
+    "person_count": {
+      "type": "integer",
+      "x-unit": "people",
+      "description": "Distinct people holding this role in the period.",
+      "minimum": 0
+    },
+    "scheduled_work_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Sum of supply-record scheduled_work_hours.",
+      "minimum": 0
+    },
+    "unavailable_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Sum of supply-record unavailable_hours.",
+      "minimum": 0
+    },
+    "gross_available_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Sum of supply-record gross_available_hours.",
+      "minimum": 0
+    },
+    "non_project_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Sum of supply-record non_project_hours.",
+      "minimum": 0
+    },
+    "training_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Sum of supply-record training_hours.",
+      "minimum": 0
+    },
+    "other_capacity_reduction_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Sum of supply-record other_capacity_reduction_hours.",
+      "minimum": 0
+    },
+    "project_available_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Sum of supply-record project_available_hours.",
+      "minimum": 0
+    },
+    "ramp_loss_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Sum of supply-record ramp_loss_hours.",
+      "minimum": 0
+    },
+    "mentor_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Sum of supply-record mentor_hours.",
+      "minimum": 0
+    },
+    "effective_capacity_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Sum of supply-record effective_capacity_hours.",
+      "minimum": 0
+    },
+    "supply_record_ids": {
+      "type": "string",
+      "pattern": "^(SUP-[0-9]{6}(;SUP-[0-9]{6})*)?$"
+    },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    }
+  }
+}

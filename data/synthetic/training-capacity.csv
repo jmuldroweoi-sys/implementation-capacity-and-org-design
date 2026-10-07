@@ -1,0 +1,8 @@
+training_capacity_id,training_demand_id,scenario_id,project_id,period,trainer_role_id,learner_count,class_size,class_size_source,track_hours,session_length_hours,session_length_source,prep_hours_per_session,prep_source,assessment_hours_per_cohort,cohorts_required,sessions_per_cohort,sessions_required,trainer_delivery_hours,trainer_preparation_hours,trainer_assessment_hours,trainer_hours,learner_seat_hours,capacity_inclusion_method,covered_by,precedence_rank,schema_version
+TRC-000001,TRD-000001,SCN-000003,PRJ-000003,2026-09,ROL-000005,30,12,record,4,2,record,1,record,0,3,2,6,12,6,0,18,120,excluded_to_prevent_double_count,TSK-000024,2,0.1.0
+TRC-000002,TRD-000002,SCN-000003,PRJ-000003,2026-11,ROL-000005,8,10,record,3,1.5,record,0.5,record,0.5,1,2,2,3,1,0.5,4.5,24,authoritative_workload,,2,0.1.0
+TRC-000003,TRD-000003,SCN-000003,PRJ-000104,2027-02,ROL-000005,45,12,record,6,2,record,1,record,1,4,3,12,24,12,4,40,270,authoritative_workload,,2,0.1.0
+TRC-000004,TRD-000004,SCN-000004,,2026-11,ROL-000005,4,6,record,24,4,record,2,record,2,1,6,6,24,12,2,38,96,authoritative_workload,,2,0.1.0
+TRC-000005,TRD-000005,SCN-000004,PRJ-000107,2027-02,ROL-000005,60,15,record,4,2,record,1,record,0,4,2,8,16,8,0,24,240,authoritative_workload,,2,0.1.0
+TRC-000006,TRD-000006,SCN-000001,PRJ-000001,2026-11,ROL-000005,10,12,default_parameter,4,2,default_parameter,1,default_parameter,0,1,2,2,4,2,0,6,40,authoritative_workload,,2,0.1.0
+TRC-000007,TRD-000007,SCN-000002,PRJ-000002,2026-11,ROL-000001,25,10,record,6,3,record,1.5,record,1,3,2,6,18,9,3,30,150,authoritative_workload,,2,0.1.0

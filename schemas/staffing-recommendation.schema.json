@@ -1,0 +1,249 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:implementation-capacity-and-org-design:0.1.0:staffing-recommendation",
+  "title": "Staffing recommendation",
+  "description": "A proposed staffing conversation produced by a fired trigger (registry prefix STR). It follows the shared recommendation contract (standard 1.0.0 recommendation.schema.json): it starts proposed, is never the authoritative operational record, never approves itself, and moves to approved or rejected only with an approval record made by a named person. It is never a hiring, budget, compensation, reorganization, or performance decision, and names no person to hire, release, promote, or reassign. Examples are an illustrative example using synthetic data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "staffing_recommendation_id",
+    "recommendation_type",
+    "subject_type",
+    "subject_id",
+    "content",
+    "source_references",
+    "status",
+    "created_at",
+    "origin_type",
+    "origin_id",
+    "staffing_trigger_id",
+    "scenario_id",
+    "role_id",
+    "fired_period",
+    "first_affected_period",
+    "capacity_gap_hours",
+    "projected_gap_date",
+    "hiring_lead_time_days",
+    "ramp_duration_days",
+    "latest_staffing_start_date",
+    "timing_state",
+    "decision_owner",
+    "schema_version"
+  ],
+  "properties": {
+    "staffing_recommendation_id": {
+      "type": "string",
+      "pattern": "^STR-[0-9]{6}$"
+    },
+    "recommendation_type": {
+      "type": "string",
+      "enum": [
+        "begin_staffing_review",
+        "review_role_coverage",
+        "investigate_role_mix",
+        "consider_workload_rebalance",
+        "review_hiring_timing",
+        "validate_forecast_assumptions"
+      ]
+    },
+    "subject_type": {
+      "type": "string",
+      "const": "capacity_snapshot"
+    },
+    "subject_id": {
+      "type": "string",
+      "pattern": "^CAP-[0-9]{6}$"
+    },
+    "content": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_references": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_type",
+          "source_id"
+        ],
+        "properties": {
+          "source_type": {
+            "type": "string",
+            "enum": [
+              "capacity_snapshot",
+              "staffing_trigger"
+            ]
+          },
+          "source_id": {
+            "type": "string",
+            "pattern": "^(CAP|STG)-[0-9]{6}$"
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "approved",
+        "rejected"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "origin_type": {
+      "type": "string",
+      "enum": [
+        "system",
+        "human"
+      ]
+    },
+    "origin_id": {
+      "type": "string",
+      "pattern": "^(STG|PER)-[0-9]{6}$"
+    },
+    "approval_id": {
+      "type": "string",
+      "pattern": "^APR-[0-9]{6}$",
+      "description": "Required once status is approved or rejected; recorded by a named person."
+    },
+    "staffing_trigger_id": {
+      "type": "string",
+      "pattern": "^STG-[0-9]{6}$"
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^SCN-[0-9]{6}$"
+    },
+    "role_id": {
+      "type": "string",
+      "pattern": "^ROL-[0-9]{6}$"
+    },
+    "fired_period": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+      "description": "Monthly planning period, YYYY-MM."
+    },
+    "first_affected_period": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+      "description": "Monthly planning period, YYYY-MM."
+    },
+    "capacity_gap_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Gap in the fired period; demand minus effective capacity."
+    },
+    "projected_gap_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "hiring_lead_time_days": {
+      "type": "integer",
+      "x-unit": "days",
+      "description": "From parameters.yaml.",
+      "minimum": 0
+    },
+    "ramp_duration_days": {
+      "type": "integer",
+      "x-unit": "days",
+      "description": "From parameters.yaml (R4 interface default).",
+      "minimum": 0
+    },
+    "latest_staffing_start_date": {
+      "type": "string",
+      "format": "date",
+      "description": "projected_gap_date - hiring_lead_time_days - ramp_duration_days. Planning logic only."
+    },
+    "timing_state": {
+      "type": "string",
+      "enum": [
+        "window_open",
+        "window_passed"
+      ]
+    },
+    "decision_owner": {
+      "type": "string",
+      "const": "named_human"
+    },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "approved",
+              "rejected"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "required": [
+          "approval_id"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "proposed"
+          }
+        }
+      },
+      "then": {
+        "not": {
+          "required": [
+            "approval_id"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "origin_type": {
+            "const": "system"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "origin_id": {
+            "pattern": "^STG-[0-9]{6}$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "origin_type": {
+            "const": "human"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "origin_id": {
+            "pattern": "^PER-[0-9]{6}$"
+          }
+        }
+      }
+    }
+  ]
+}

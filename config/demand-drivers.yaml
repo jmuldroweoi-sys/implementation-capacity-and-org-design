@@ -1,0 +1,37 @@
+# Top-down demand drivers: total effort per role for one project of each complexity tier.
+# illustrative example.
+# Every hour value in this file is a proposed design value, not a measured result.
+# Every hour value in this file is a user-configurable parameter.
+# No value is a benchmark for how long any project takes.
+#
+# Tier keys are R2 driver keys. Each maps to an R1 complexity profile where one exists;
+# R1 v0.1 ships only the standard profile (PRF-000002). R2 does not define complexity
+# profiles; R1 does.
+#
+# Only the implementation lead and technical specialist roles carry tier-based project
+# effort here. Training delivery and launch support reach demand through their own
+# records (training-capacity.yaml and golive-support.yaml), never through these drivers,
+# so the same work is not counted twice.
+version: "1.0.0"
+tiers:
+  - tier_key: simple
+    r1_complexity_profile_id: null
+    curve_id: curve_simple
+    labels: [illustrative example, user-configurable parameter, "proposed design value, not a measured result"]
+    effort_hours_by_role:
+      ROL-000001: 120  # implementation_lead; proposed design value, not a measured result
+      ROL-000004: 100  # technical_specialist; proposed design value, not a measured result
+  - tier_key: standard
+    r1_complexity_profile_id: PRF-000002
+    curve_id: curve_standard
+    labels: [illustrative example, user-configurable parameter, "proposed design value, not a measured result"]
+    effort_hours_by_role:
+      ROL-000001: 360  # proposed design value, not a measured result
+      ROL-000004: 480  # proposed design value, not a measured result
+  - tier_key: complex
+    r1_complexity_profile_id: null
+    curve_id: curve_complex
+    labels: [illustrative example, user-configurable parameter, "proposed design value, not a measured result"]
+    effort_hours_by_role:
+      ROL-000001: 720  # proposed design value, not a measured result
+      ROL-000004: 1200 # proposed design value, not a measured result

@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:implementation-operating-system:standard:1.0.0:recommendation",
+  "title": "Recommendation",
+  "description": "The single shared recommendation record (standard 1.0.0). A recommendation is a proposal from a human, a deterministic system, or an AI agent where allowed. It is never the authoritative operational record and never approves itself. Status starts as proposed; approved or rejected are set only with a reference to an approval record made by a named human. Any approved change is then made by the repository that owns the subject. Examples are illustrative examples using synthetic data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "recommendation_id",
+    "recommendation_type",
+    "subject_type",
+    "subject_id",
+    "content",
+    "source_references",
+    "status",
+    "created_at",
+    "origin_type",
+    "origin_id"
+  ],
+  "properties": {
+    "recommendation_id": {"type": "string", "pattern": "^REC-[0-9]{6}$"},
+    "recommendation_type": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "description": "Kind of recommendation, defined by the producing repository, for example status_summary_draft."
+    },
+    "subject_type": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+    "subject_id": {"type": "string", "pattern": "^[A-Z]{3}-[0-9]{6}$"},
+    "content": {"type": "string", "minLength": 1},
+    "source_references": {
+      "type": "array",
+      "minItems": 1,
+      "description": "The records the recommendation is based on. A recommendation with no sources is invalid.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_type", "source_id"],
+        "properties": {
+          "source_type": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+          "source_id": {"type": "string", "pattern": "^[A-Z]{3}-[0-9]{6}$"}
+        }
+      }
+    },
+    "status": {"type": "string", "enum": ["proposed", "approved", "rejected"]},
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?Z$"
+    },
+    "origin_type": {"type": "string", "enum": ["human", "system", "ai_agent"]},
+    "origin_id": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}-[0-9]{6}$",
+      "description": "PER for human, AGT for ai_agent, the registered rule or record for system."
+    },
+    "approval_id": {
+      "type": "string",
+      "pattern": "^APR-[0-9]{6}$",
+      "description": "Required once status is approved or rejected."
+    },
+    "task_run_id": {
+      "type": "string",
+      "pattern": "^RUN-[0-9]{6}$",
+      "description": "Optional extension used by the AI agent framework."
+    },
+    "task_contract_id": {
+      "type": "string",
+      "pattern": "^TCT-[0-9]{6}$",
+      "description": "Optional extension used by the AI agent framework."
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"enum": ["approved", "rejected"]}}, "required": ["status"]},
+      "then": {"required": ["approval_id"]}
+    },
+    {
+      "if": {"properties": {"origin_type": {"const": "human"}}},
+      "then": {"properties": {"origin_id": {"pattern": "^PER-[0-9]{6}$"}}}
+    },
+    {
+      "if": {"properties": {"origin_type": {"const": "ai_agent"}}},
+      "then": {
+        "properties": {"origin_id": {"pattern": "^AGT-[0-9]{6}$"}},
+        "required": ["task_run_id"]
+      }
+    }
+  ],
+  "examples": [
+    {
+      "recommendation_id": "REC-000007",
+      "recommendation_type": "status_summary_draft",
+      "subject_type": "project",
+      "subject_id": "PRJ-000001",
+      "content": "Draft weekly status: two tasks overdue; readiness scored this week.",
+      "source_references": [
+        {"source_type": "task", "source_id": "TSK-000021"},
+        {"source_type": "readiness_scorecard", "source_id": "RDS-000002"}
+      ],
+      "status": "proposed",
+      "created_at": "2026-03-06T16:05:00Z",
+      "origin_type": "ai_agent",
+      "origin_id": "AGT-000001",
+      "task_run_id": "RUN-000010",
+      "task_contract_id": "TCT-000001"
+    },
+    {
+      "recommendation_id": "REC-000008",
+      "recommendation_type": "risk_mitigation",
+      "subject_type": "risk",
+      "subject_id": "RSK-000005",
+      "content": "Add a second data validation pass before launch.",
+      "source_references": [{"source_type": "risk", "source_id": "RSK-000005"}],
+      "status": "approved",
+      "created_at": "2026-03-07T10:00:00Z",
+      "origin_type": "human",
+      "origin_id": "PER-000002",
+      "approval_id": "APR-000005"
+    }
+  ]
+}

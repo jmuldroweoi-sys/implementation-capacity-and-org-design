@@ -1,0 +1,37 @@
+# Phase-effort curves for top-down forecast demand. illustrative example: each curve shows one possible way a project's effort could spread across the R1 lifecycle.
+# Every share and duration in this file is a proposed design value, not a measured result, and a user-configurable parameter.
+# No curve is a universal effort distribution or a benchmark.
+# Rules the validator enforces:
+# - every curve covers each of the ten R1 phase keys exactly once;
+# - effort shares in a curve sum to exactly 1;
+# - every segment lasts at least one monthly period.
+# A segment's share is spread evenly across its months.
+version: "1.0.0"
+curves:
+  - curve_id: curve_simple
+    description: Short project; discovery, design, and build compressed.
+    labels: [illustrative example, user-configurable parameter, "proposed design value, not a measured result"]
+    segments:
+      - {phase_keys: [initiate, discover, design], duration_months: 1, effort_share: 0.30}
+      - {phase_keys: [build, validate], duration_months: 1, effort_share: 0.40}
+      - {phase_keys: [enable, launch, stabilize, transition, review], duration_months: 1, effort_share: 0.30}
+  - curve_id: curve_standard
+    description: A few integrations and several user groups.
+    labels: [illustrative example, user-configurable parameter, "proposed design value, not a measured result"]
+    segments:
+      - {phase_keys: [initiate, discover], duration_months: 1, effort_share: 0.10}
+      - {phase_keys: [design], duration_months: 1, effort_share: 0.15}
+      - {phase_keys: [build], duration_months: 2, effort_share: 0.35}
+      - {phase_keys: [validate, enable], duration_months: 1, effort_share: 0.20}
+      - {phase_keys: [launch, stabilize], duration_months: 1, effort_share: 0.12}
+      - {phase_keys: [transition, review], duration_months: 1, effort_share: 0.08}
+  - curve_id: curve_complex
+    description: Many integrations, data migration, and several rollout waves.
+    labels: [illustrative example, user-configurable parameter, "proposed design value, not a measured result"]
+    segments:
+      - {phase_keys: [initiate, discover], duration_months: 1, effort_share: 0.08}
+      - {phase_keys: [design], duration_months: 2, effort_share: 0.17}
+      - {phase_keys: [build], duration_months: 3, effort_share: 0.35}
+      - {phase_keys: [validate, enable], duration_months: 2, effort_share: 0.22}
+      - {phase_keys: [launch, stabilize], duration_months: 1, effort_share: 0.12}
+      - {phase_keys: [transition, review], duration_months: 1, effort_share: 0.06}

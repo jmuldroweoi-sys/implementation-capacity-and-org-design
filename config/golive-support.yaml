@@ -1,0 +1,18 @@
+# Go-live support: implementation-team hours consumed around a launch.
+# These are workload calculations only. R1 owns launch readiness, cutover logic, and the
+# go or no-go decision; R2 never makes or implies a launch decision.
+# Every staffing pattern in the synthetic data is an illustrative example.
+# Every number is a user-configurable parameter.
+# Every number is a proposed design value, not a measured result.
+version: "1.0.0"
+support_types:
+  - {support_type: rehearsal, meaning: "Rehearsing the launch steps before the launch date."}
+  - {support_type: cutover_support, meaning: "Implementation-team hours during the cutover window. R1 owns cutover logic."}
+  - {support_type: command_center_support, meaning: "Implementation-team hours staffing a launch command center. R1 owns command-center definitions."}
+  - {support_type: hypercare_support, meaning: "Heightened support hours after launch, before normal support takes over."}
+formulas:
+  - {name: support_hours, formula: "people_count * hours_per_person_per_day * days", unit: hours}
+rules:
+  - Every record names the project, period, support type, and the role whose capacity it consumes.
+  - A launch-support record plans hours on the assumption that the launch proceeds as planned in R1. It records no readiness, gate, or decision.
+  - Only records with capacity_inclusion_method authoritative_workload enter demand.

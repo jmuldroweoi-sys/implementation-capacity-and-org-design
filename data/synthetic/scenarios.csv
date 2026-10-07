@@ -1,0 +1,5 @@
+scenario_id,label,org_stage,org_profile_id,selected_by,selected_at,schema_version
+SCN-000001,Scenario A,startup,ORG-000001,PER-000001,2026-09-01T14:00:00Z,0.1.0
+SCN-000002,Scenario B,early_scale,ORG-000002,PER-000002,2026-09-01T15:00:00Z,0.1.0
+SCN-000003,Scenario C,structured_growth,ORG-000003,PER-000003,2026-09-01T16:00:00Z,0.1.0
+SCN-000004,Scenario D,mature,ORG-000004,PER-000010,2026-09-01T17:00:00Z,0.1.0

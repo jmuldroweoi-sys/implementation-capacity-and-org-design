@@ -1,0 +1,42 @@
+# Supply rules: how one person's scheduled hours in one role and period become the hours
+# they have for project work. The formulas are fixed; the inputs come from each supply
+# record. Any default hours come from parameters.yaml.
+# Each default there is a user-configurable parameter.
+# Each default there is a proposed design value, not a measured result.
+# ramped_factor below is a definition (1 means fully ramped), not a tunable value.
+#
+# There is no "productive percentage" in R2. Every reduction is an explicit, named
+# allowance in hours on a supply record, so a reader can see exactly why supply is lower.
+version: "1.0.0"
+formulas:
+  - name: gross_available_hours
+    formula: scheduled_work_hours - unavailable_hours
+    unit: hours
+  - name: project_available_hours
+    formula: gross_available_hours - non_project_hours - training_hours - other_capacity_reduction_hours
+    unit: hours
+  - name: ramp_adjusted_hours
+    formula: project_available_hours * ramp_factor
+    unit: hours
+  - name: ramp_loss_hours
+    formula: project_available_hours - ramp_adjusted_hours
+    unit: hours
+  - name: effective_capacity_hours
+    formula: ramp_adjusted_hours - mentor_hours
+    unit: hours
+allowances:
+  - {field: unavailable_hours, meaning: "Planned leave, holidays, or not yet employed for part of the period."}
+  - {field: non_project_hours, meaning: "Recurring internal work outside implementation projects, such as team meetings or support coverage."}
+  - {field: training_hours, meaning: "The person's own learning time, for example new-hire onboarding. Never trainer workload."}
+  - {field: other_capacity_reduction_hours, meaning: "Any other approved, named reduction, with the reason in the record."}
+  - {field: mentor_hours, meaning: "Time this person spends mentoring someone else. Recorded only on the mentor's own record."}
+ramp:
+  owner: implementation-enablement-program
+  r2_role: R2 reads a ramp_factor between 0 and 1 for each supply record. R4 owns how ramp is defined and measured; until R4 exists, ramp factors are interface fixtures.
+  ramped_factor: 1
+rules:
+  - Every hour field is non-negative, and effective_capacity_hours may not be negative; a record that would go negative is rejected, not clipped.
+  - ramp_factor is between 0 and 1 inclusive.
+  - A ramping person's lost hours are their own ramp_loss_hours. A mentor's lost hours are their own mentor_hours. The same hours are never counted on both people.
+  - A supply record that names a mentor must be matched by the mentor's record naming the mentee in the same period.
+  - Supply measures available work time, not anyone's worth or performance.

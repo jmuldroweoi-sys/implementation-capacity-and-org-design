@@ -1,0 +1,277 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:implementation-capacity-and-org-design:0.1.0:demand-record",
+  "title": "Demand record",
+  "description": "One workload line for one project, role, and monthly period, produced by exactly one demand method (V4 D9). bottom_up rows are imported unchanged from the pinned R3 Capacity Inputs; top_down rows come from a complexity tier's effort and phase-effort curve. Only authoritative_workload rows enter demand, and each project and period has at most one authoritative method. Examples are an illustrative example using synthetic data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "demand_record_id",
+    "scenario_id",
+    "project_id",
+    "period",
+    "role_id",
+    "workload_component_id",
+    "workload_type",
+    "demand_method",
+    "source_entity_type",
+    "source_entity_id",
+    "source_repo",
+    "source_version",
+    "capacity_inclusion_method",
+    "precedence_rank",
+    "hours",
+    "unit",
+    "value_basis",
+    "schema_version"
+  ],
+  "properties": {
+    "demand_record_id": {
+      "type": "string",
+      "pattern": "^DMN-[0-9]{6}$"
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^SCN-[0-9]{6}$"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^PRJ-[0-9]{6}$"
+    },
+    "period": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+      "description": "Monthly planning period, YYYY-MM."
+    },
+    "role_id": {
+      "type": "string",
+      "pattern": "^ROL-[0-9]{6}$"
+    },
+    "workload_component_id": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}-[0-9]{6}$",
+      "description": "The unit of work that may be counted at most once per period. For top_down rows it is the record's own DMN ID."
+    },
+    "workload_type": {
+      "type": "string",
+      "enum": [
+        "task_effort",
+        "request_handling",
+        "handoff_effort",
+        "phase_summary",
+        "forecast_project_effort"
+      ]
+    },
+    "demand_method": {
+      "type": "string",
+      "enum": [
+        "bottom_up",
+        "top_down"
+      ]
+    },
+    "source_entity_type": {
+      "type": "string",
+      "enum": [
+        "task",
+        "request",
+        "handoff",
+        "phase",
+        "project"
+      ]
+    },
+    "source_entity_id": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}-[0-9]{6}$"
+    },
+    "source_repo": {
+      "type": "string",
+      "enum": [
+        "implementation-operating-system",
+        "implementation-capacity-and-org-design"
+      ]
+    },
+    "source_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "import_source_repo": {
+      "type": "string",
+      "enum": [
+        "implementation-tracker-workbook"
+      ],
+      "description": "Present when the row was imported from R3."
+    },
+    "import_record_id": {
+      "type": "string",
+      "pattern": "^CPI-[0-9]{6}$",
+      "description": "The R3 Capacity Inputs row this record copies."
+    },
+    "capacity_inclusion_method": {
+      "type": "string",
+      "enum": [
+        "authoritative_workload",
+        "informational_only",
+        "excluded_to_prevent_double_count"
+      ],
+      "description": "Only authoritative_workload enters demand."
+    },
+    "precedence_rank": {
+      "type": "integer",
+      "x-unit": "rank",
+      "description": "1 = R1/R3 task workload, 2 = approved upstream component, 3 = top-down forecast.",
+      "minimum": 1
+    },
+    "hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Planned (bottom_up) or forecast (top_down) hours. Never overwritten by actual hours.",
+      "minimum": 0
+    },
+    "actual_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Actual hours from R3, kept for retrospective comparison only. Never demand.",
+      "minimum": 0
+    },
+    "unit": {
+      "type": "string",
+      "const": "hours"
+    },
+    "value_basis": {
+      "type": "string",
+      "enum": [
+        "planned",
+        "forecast"
+      ]
+    },
+    "complexity_tier": {
+      "type": "string",
+      "enum": [
+        "simple",
+        "standard",
+        "complex"
+      ]
+    },
+    "curve_id": {
+      "type": "string",
+      "pattern": "^curve_[a-z0-9_]+$"
+    },
+    "month_offset": {
+      "type": "integer",
+      "x-unit": "months",
+      "description": "Months after the curve start period.",
+      "minimum": 0
+    },
+    "phase_keys": {
+      "type": "string",
+      "pattern": "^[a-z]+(\\+[a-z]+)*$"
+    },
+    "exclusion_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "demand_method": {
+            "const": "bottom_up"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "import_source_repo",
+          "import_record_id"
+        ],
+        "properties": {
+          "precedence_rank": {
+            "const": 1
+          },
+          "value_basis": {
+            "const": "planned"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "demand_method": {
+            "const": "top_down"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "curve_id",
+          "month_offset",
+          "phase_keys",
+          "complexity_tier"
+        ],
+        "properties": {
+          "precedence_rank": {
+            "const": 3
+          },
+          "value_basis": {
+            "const": "forecast"
+          },
+          "workload_type": {
+            "const": "forecast_project_effort"
+          },
+          "source_entity_type": {
+            "const": "project"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "capacity_inclusion_method": {
+            "enum": [
+              "informational_only",
+              "excluded_to_prevent_double_count"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "exclusion_reason"
+        ]
+      }
+    }
+  ],
+  "examples": [
+    {
+      "demand_record_id": "DMN-000050",
+      "scenario_id": "SCN-000004",
+      "project_id": "PRJ-000106",
+      "period": "2026-11",
+      "role_id": "ROL-000001",
+      "workload_component_id": "DMN-000050",
+      "workload_type": "forecast_project_effort",
+      "demand_method": "top_down",
+      "source_entity_type": "project",
+      "source_entity_id": "PRJ-000106",
+      "source_repo": "implementation-capacity-and-org-design",
+      "source_version": "demand-drivers-1.0.0",
+      "capacity_inclusion_method": "authoritative_workload",
+      "precedence_rank": 3,
+      "hours": 63,
+      "unit": "hours",
+      "value_basis": "forecast",
+      "complexity_tier": "standard",
+      "curve_id": "curve_standard",
+      "month_offset": 2,
+      "phase_keys": "build",
+      "schema_version": "0.1.0"
+    }
+  ]
+}

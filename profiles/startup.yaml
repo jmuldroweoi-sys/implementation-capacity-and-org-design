@@ -1,0 +1,23 @@
+# Organization-stage profile:
+# Startup. illustrative example: describes one organization stage for capacity planning.
+# It is descriptive, not a benchmark.
+# The stage is selected by a named person and recorded with an org_profile.selected event;
+# R2 never derives it from headcount or changes it on its own.
+# Every number in this file is a user-configurable parameter and a proposed design value, not a measured result.
+org_profile_id: ORG-000001
+org_stage: startup
+name: "Startup"
+version: "1.0.0"
+definition: "One person, or a few people, implement, train, support, and coordinate."
+selection_rule: Selected by a named person. R2 may surface signals that suggest reviewing the stage; it never changes the stage.
+typical_operating_model:
+  - One person may hold the implementation lead, technical specialist, enablement, and support roles
+  - Little formal specialization
+  - A lightweight monthly capacity review
+signals_that_suggest_reviewing_the_stage:
+  - Concurrency rises and work competes across customers
+  - The one implementer is the bottleneck for every launch
+capacity_review_cadence: "monthly, about one hour (design target)"
+planning_settings:
+  max_active_projects_per_role: 2  # concurrency observation threshold; user-configurable parameter; proposed design value, not a measured result
+labels: [illustrative example, user-configurable parameter, "proposed design value, not a measured result"]

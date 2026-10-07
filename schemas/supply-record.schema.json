@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:implementation-capacity-and-org-design:0.1.0:supply-record",
+  "title": "Supply record",
+  "description": "Available hours for one person in one role and monthly period, after named allowances. There is no productive percentage: every reduction is an explicit allowance in hours. A ramping person's lost hours are their own ramp_loss_hours; a mentor's are their own mentor_hours; the same hours are never on both. Supply measures available work time, not anyone's worth or performance. Examples are an illustrative example using synthetic data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "supply_record_id",
+    "scenario_id",
+    "person_id",
+    "role_id",
+    "period",
+    "scheduled_work_hours",
+    "unavailable_hours",
+    "gross_available_hours",
+    "non_project_hours",
+    "training_hours",
+    "other_capacity_reduction_hours",
+    "project_available_hours",
+    "ramp_factor",
+    "ramp_adjusted_hours",
+    "ramp_loss_hours",
+    "mentor_hours",
+    "effective_capacity_hours",
+    "ramp_source",
+    "value_basis",
+    "unit",
+    "schema_version"
+  ],
+  "properties": {
+    "supply_record_id": {
+      "type": "string",
+      "pattern": "^SUP-[0-9]{6}$"
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^SCN-[0-9]{6}$"
+    },
+    "person_id": {
+      "type": "string",
+      "pattern": "^PER-[0-9]{6}$"
+    },
+    "role_id": {
+      "type": "string",
+      "pattern": "^ROL-[0-9]{6}$"
+    },
+    "period": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+      "description": "Monthly planning period, YYYY-MM."
+    },
+    "scheduled_work_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Scheduled working hours in this role for the period.",
+      "minimum": 0
+    },
+    "unavailable_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Leave, holidays, or not yet employed.",
+      "minimum": 0
+    },
+    "gross_available_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "scheduled_work_hours - unavailable_hours.",
+      "minimum": 0
+    },
+    "non_project_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Recurring internal work outside implementation projects.",
+      "minimum": 0
+    },
+    "training_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "The person's own learning time. Never trainer workload.",
+      "minimum": 0
+    },
+    "other_capacity_reduction_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Any other approved, named reduction.",
+      "minimum": 0
+    },
+    "project_available_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "gross_available_hours - non_project_hours - training_hours - other_capacity_reduction_hours.",
+      "minimum": 0
+    },
+    "ramp_factor": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "x-unit": "ratio",
+      "description": "1 when fully ramped; below 1 is an R4 interface fixture."
+    },
+    "ramp_adjusted_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "project_available_hours x ramp_factor, rounded to hours_decimal_places.",
+      "minimum": 0
+    },
+    "ramp_loss_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "project_available_hours - ramp_adjusted_hours, on the ramping person only.",
+      "minimum": 0
+    },
+    "mentor_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Hours this person spends mentoring someone else, on the mentor only.",
+      "minimum": 0
+    },
+    "effective_capacity_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "ramp_adjusted_hours - mentor_hours. Never negative; a record that would be negative is rejected.",
+      "minimum": 0
+    },
+    "mentor_person_id": {
+      "type": "string",
+      "pattern": "^PER-[0-9]{6}$",
+      "description": "On a ramping person's record: who mentors them this period."
+    },
+    "mentee_person_id": {
+      "type": "string",
+      "pattern": "^PER-[0-9]{6}$",
+      "description": "On a mentor's record: whom they mentor this period."
+    },
+    "ramp_source": {
+      "type": "string",
+      "enum": [
+        "fully_ramped_default",
+        "r4_interface_fixture"
+      ]
+    },
+    "value_basis": {
+      "type": "string",
+      "enum": [
+        "forecast",
+        "actual"
+      ],
+      "description": "v0.1 produces forecast supply only; actual available capacity is a later extension and never overwrites forecast."
+    },
+    "unit": {
+      "type": "string",
+      "const": "hours"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "mentor_hours": {
+            "exclusiveMinimum": 0
+          }
+        },
+        "required": [
+          "mentor_hours"
+        ]
+      },
+      "then": {
+        "required": [
+          "mentee_person_id"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+# Organization-stage profile:
+# Structured growth. illustrative example: describes one organization stage for capacity planning.
+# It is descriptive, not a benchmark.
+# The stage is selected by a named person and recorded with an org_profile.selected event;
+# R2 never derives it from headcount or changes it on its own.
+# Every number in this file is a user-configurable parameter and a proposed design value, not a measured result.
+org_profile_id: ORG-000003
+org_stage: structured_growth
+name: "Structured growth"
+version: "1.0.0"
+definition: "The function has leads, first specializations, and emerging enablement and operations roles."
+selection_rule: Selected by a named person. R2 may surface signals that suggest reviewing the stage; it never changes the stage.
+typical_operating_model:
+  - Specialization begins; enablement, operations, or lead roles appear
+  - Demand forecasts matter before the hiring lead time
+  - Coaching and management overhead becomes material
+signals_that_suggest_reviewing_the_stage:
+  - Segmented delivery and dedicated operations functions
+  - Portfolio-level planning across teams
+capacity_review_cadence: "monthly, with a quarterly forecast review"
+planning_settings:
+  max_active_projects_per_role: 4  # concurrency observation threshold; user-configurable parameter; proposed design value, not a measured result
+labels: [illustrative example, user-configurable parameter, "proposed design value, not a measured result"]

@@ -1,0 +1,169 @@
+# Synthetic planning universe: the only hand-authored synthetic input in this repository.
+# All of it is synthetic data and an illustrative example.
+# tools/capacity_calc.py builds every CSV and the event file in this folder from it, plus the pinned R3 Capacity Inputs.
+# No record describes a real person, team, customer, or organization.
+# People appear only as PER IDs with neutral labels.
+# Every hour, count, and factor here is a proposed design value, not a measured result.
+version: "1.0.0"
+
+scenarios:
+  - {scenario_id: SCN-000001, label: Scenario A, org_stage: startup, org_profile_id: ORG-000001, selected_by: PER-000001, selected_at: "2026-09-01T14:00:00Z"}
+  - {scenario_id: SCN-000002, label: Scenario B, org_stage: early_scale, org_profile_id: ORG-000002, selected_by: PER-000002, selected_at: "2026-09-01T15:00:00Z"}
+  - {scenario_id: SCN-000003, label: Scenario C, org_stage: structured_growth, org_profile_id: ORG-000003, selected_by: PER-000003, selected_at: "2026-09-01T16:00:00Z"}
+  - {scenario_id: SCN-000004, label: Scenario D, org_stage: mature, org_profile_id: ORG-000004, selected_by: PER-000010, selected_at: "2026-09-01T17:00:00Z"}
+
+# Supply inputs. Each allocation is one person in one role; a person in a small team may
+# hold several roles, each with its own share of scheduled hours. Overrides change one
+# field for one period. ramp_factors are R4 interface fixtures.
+people:
+  - person_id: PER-000001
+    label: Person A
+    scenario_id: SCN-000001
+    note: Solo implementer holding four roles.
+    allocations:
+      - {role_id: ROL-000001, scheduled_work_hours: 112, non_project_hours: 16}
+      - {role_id: ROL-000004, scheduled_work_hours: 24, non_project_hours: 0}
+      - {role_id: ROL-000005, scheduled_work_hours: 16, non_project_hours: 0}
+      - {role_id: ROL-000006, scheduled_work_hours: 8, non_project_hours: 0}
+    overrides:
+      - {period: "2026-12", role_id: ROL-000001, field: unavailable_hours, value: 16, reason: planned holiday}
+  - person_id: PER-000002
+    label: Person B
+    scenario_id: SCN-000002
+    allocations:
+      - {role_id: ROL-000001, scheduled_work_hours: 160, non_project_hours: 24}
+  - person_id: PER-000006
+    label: Person F
+    scenario_id: SCN-000002
+    note: Fully ramped technical specialist who mentors Person G.
+    allocations:
+      - {role_id: ROL-000004, scheduled_work_hours: 160, non_project_hours: 16}
+    overrides:
+      - {period: "2026-11", role_id: ROL-000004, field: mentor_hours, value: 24, mentee: PER-000007}
+      - {period: "2026-12", role_id: ROL-000004, field: mentor_hours, value: 16, mentee: PER-000007}
+      - {period: "2027-01", role_id: ROL-000004, field: mentor_hours, value: 8, mentee: PER-000007}
+  - person_id: PER-000007
+    label: Person G
+    scenario_id: SCN-000002
+    note: New technical specialist who joins mid-November 2026 and ramps.
+    first_period: "2026-11"
+    allocations:
+      - {role_id: ROL-000004, scheduled_work_hours: 160, non_project_hours: 8}
+    overrides:
+      - {period: "2026-11", role_id: ROL-000004, field: unavailable_hours, value: 80, reason: joins mid-period}
+      - {period: "2026-11", role_id: ROL-000004, field: training_hours, value: 32, reason: own onboarding learning}
+      - {period: "2026-12", role_id: ROL-000004, field: training_hours, value: 24, reason: own onboarding learning}
+      - {period: "2027-01", role_id: ROL-000004, field: training_hours, value: 8, reason: own onboarding learning}
+      - {period: "2026-11", role_id: ROL-000004, field: ramp_factor, value: 0.25, mentor: PER-000006}
+      - {period: "2026-12", role_id: ROL-000004, field: ramp_factor, value: 0.5, mentor: PER-000006}
+      - {period: "2027-01", role_id: ROL-000004, field: ramp_factor, value: 0.75, mentor: PER-000006}
+  - person_id: PER-000003
+    label: Person C
+    scenario_id: SCN-000003
+    allocations:
+      - {role_id: ROL-000001, scheduled_work_hours: 160, non_project_hours: 32}
+  - person_id: PER-000009
+    label: Person M
+    scenario_id: SCN-000003
+    allocations:
+      - {role_id: ROL-000004, scheduled_work_hours: 160, non_project_hours: 16}
+  - person_id: PER-000008
+    label: Person H
+    scenario_id: SCN-000003
+    allocations:
+      - {role_id: ROL-000005, scheduled_work_hours: 160, non_project_hours: 24}
+  - person_id: PER-000005
+    label: Person E
+    scenario_id: SCN-000003
+    allocations:
+      - {role_id: ROL-000006, scheduled_work_hours: 160, non_project_hours: 40}
+  - person_id: PER-000010
+    label: Person I
+    scenario_id: SCN-000004
+    allocations:
+      - {role_id: ROL-000001, scheduled_work_hours: 160, non_project_hours: 24}
+  - person_id: PER-000011
+    label: Person J
+    scenario_id: SCN-000004
+    allocations:
+      - {role_id: ROL-000001, scheduled_work_hours: 160, non_project_hours: 24}
+  - person_id: PER-000012
+    label: Person K
+    scenario_id: SCN-000004
+    allocations:
+      - {role_id: ROL-000004, scheduled_work_hours: 160, non_project_hours: 16}
+  - person_id: PER-000015
+    label: Person O
+    scenario_id: SCN-000004
+    allocations:
+      - {role_id: ROL-000004, scheduled_work_hours: 160, non_project_hours: 16}
+  - person_id: PER-000016
+    label: Person P
+    scenario_id: SCN-000004
+    allocations:
+      - {role_id: ROL-000004, scheduled_work_hours: 160, non_project_hours: 16}
+  - person_id: PER-000013
+    label: Person L
+    scenario_id: SCN-000004
+    allocations:
+      - {role_id: ROL-000005, scheduled_work_hours: 160, non_project_hours: 16}
+    overrides:
+      - {period: "2027-02", role_id: ROL-000005, field: unavailable_hours, value: 160, reason: planned leave for the whole period}
+      - {period: "2027-02", role_id: ROL-000005, field: non_project_hours, value: 0, reason: no recurring internal work while on leave}
+  - person_id: PER-000014
+    label: Person N
+    scenario_id: SCN-000004
+    allocations:
+      - {role_id: ROL-000006, scheduled_work_hours: 160, non_project_hours: 32}
+
+# Project planning references. R1 projects keep R1 IDs; R2 never changes their status.
+# Forecast projects (PRJ-000101 onward) are synthetic pipeline entries that do not exist in
+# R1 yet; when one is created in R1, R1 owns its record.
+# curve_start_period is the period in which the first segment of the tier's phase-effort
+# curve falls. For R1 projects it is chosen so the curve's launch segment falls in the
+# month of the R1 target launch date; the validator checks this. It is an R2 planning
+# anchor, not R1 phase state.
+projects:
+  - {project_id: PRJ-000001, scenario_id: SCN-000001, source: r1, complexity_tier: standard, curve_start_period: "2026-07"}
+  - {project_id: PRJ-000002, scenario_id: SCN-000002, source: r1, complexity_tier: standard, curve_start_period: "2026-06"}
+  - {project_id: PRJ-000003, scenario_id: SCN-000003, source: r1, complexity_tier: standard, curve_start_period: "2026-05"}
+  - {project_id: PRJ-000101, scenario_id: SCN-000001, source: forecast, complexity_tier: simple, curve_start_period: "2027-01"}
+  - {project_id: PRJ-000102, scenario_id: SCN-000002, source: forecast, complexity_tier: standard, curve_start_period: "2026-11"}
+  - {project_id: PRJ-000103, scenario_id: SCN-000002, source: forecast, complexity_tier: complex, curve_start_period: "2026-12"}
+  - {project_id: PRJ-000104, scenario_id: SCN-000003, source: forecast, complexity_tier: standard, curve_start_period: "2026-12"}
+  - {project_id: PRJ-000105, scenario_id: SCN-000003, source: forecast, complexity_tier: complex, curve_start_period: "2027-01"}
+  - {project_id: PRJ-000106, scenario_id: SCN-000004, source: forecast, complexity_tier: standard, curve_start_period: "2026-09"}
+  - {project_id: PRJ-000107, scenario_id: SCN-000004, source: forecast, complexity_tier: standard, curve_start_period: "2026-10"}
+  - {project_id: PRJ-000108, scenario_id: SCN-000004, source: forecast, complexity_tier: complex, curve_start_period: "2026-11"}
+  - {project_id: PRJ-000109, scenario_id: SCN-000004, source: forecast, complexity_tier: simple, curve_start_period: "2026-12"}
+  - {project_id: PRJ-000110, scenario_id: SCN-000004, source: forecast, complexity_tier: standard, curve_start_period: "2027-01"}
+  - {project_id: PRJ-000111, scenario_id: SCN-000004, source: forecast, complexity_tier: complex, curve_start_period: "2027-03"}
+  - {project_id: PRJ-000112, scenario_id: SCN-000004, source: forecast, complexity_tier: standard, curve_start_period: "2027-04"}
+  - {project_id: PRJ-000113, scenario_id: SCN-000004, source: forecast, complexity_tier: complex, curve_start_period: "2027-05"}
+
+# Training demand: interface fixtures in the planned R4 shape (R4 is not built yet).
+training_demand:
+  - {training_demand_id: TRD-000001, scenario_id: SCN-000003, project_id: PRJ-000003, period: "2026-09", track_label: End-user training, learner_count: 30, class_size: 12, track_hours: 4, session_length_hours: 2, prep_hours_per_session: 1, assessment_hours_per_cohort: 0, trainer_role_id: ROL-000005, capacity_inclusion_method: excluded_to_prevent_double_count, covered_by: TSK-000024}
+  - {training_demand_id: TRD-000002, scenario_id: SCN-000003, project_id: PRJ-000003, period: "2026-11", track_label: Administrator refresher, learner_count: 8, class_size: 10, track_hours: 3, session_length_hours: 1.5, prep_hours_per_session: 0.5, assessment_hours_per_cohort: 0.5, trainer_role_id: ROL-000005, capacity_inclusion_method: authoritative_workload}
+  - {training_demand_id: TRD-000003, scenario_id: SCN-000003, project_id: PRJ-000104, period: "2027-02", track_label: End-user training, learner_count: 45, class_size: 12, track_hours: 6, session_length_hours: 2, prep_hours_per_session: 1, assessment_hours_per_cohort: 1, trainer_role_id: ROL-000005, capacity_inclusion_method: authoritative_workload}
+  - {training_demand_id: TRD-000004, scenario_id: SCN-000004, project_id: null, period: "2026-11", track_label: New specialist onboarding, learner_count: 4, class_size: 6, track_hours: 24, session_length_hours: 4, prep_hours_per_session: 2, assessment_hours_per_cohort: 2, trainer_role_id: ROL-000005, capacity_inclusion_method: authoritative_workload}
+  - {training_demand_id: TRD-000005, scenario_id: SCN-000004, project_id: PRJ-000107, period: "2027-02", track_label: End-user training, learner_count: 60, class_size: 15, track_hours: 4, session_length_hours: 2, prep_hours_per_session: 1, assessment_hours_per_cohort: 0, trainer_role_id: ROL-000005, capacity_inclusion_method: authoritative_workload}
+  - {training_demand_id: TRD-000006, scenario_id: SCN-000001, project_id: PRJ-000001, period: "2026-11", track_label: End-user training, learner_count: 10, class_size: null, track_hours: 4, session_length_hours: null, prep_hours_per_session: null, assessment_hours_per_cohort: 0, trainer_role_id: ROL-000005, capacity_inclusion_method: authoritative_workload}
+  - {training_demand_id: TRD-000007, scenario_id: SCN-000002, project_id: PRJ-000002, period: "2026-11", track_label: End-user training, learner_count: 25, class_size: 10, track_hours: 6, session_length_hours: 3, prep_hours_per_session: 1.5, assessment_hours_per_cohort: 1, trainer_role_id: ROL-000001, capacity_inclusion_method: authoritative_workload}
+
+# Launch-support plans: workload only, on the assumption that each launch proceeds as
+# planned in R1. No readiness, gate, or go or no-go logic.
+golive_support:
+  - {golive_support_demand_id: GLS-000001, scenario_id: SCN-000003, project_id: PRJ-000003, period: "2026-10", support_type: rehearsal, role_id: ROL-000001, people_count: 1, hours_per_person_per_day: 4, days: 2}
+  - {golive_support_demand_id: GLS-000002, scenario_id: SCN-000003, project_id: PRJ-000003, period: "2026-10", support_type: rehearsal, role_id: ROL-000004, people_count: 1, hours_per_person_per_day: 4, days: 2}
+  - {golive_support_demand_id: GLS-000003, scenario_id: SCN-000003, project_id: PRJ-000003, period: "2026-10", support_type: cutover_support, role_id: ROL-000004, people_count: 1, hours_per_person_per_day: 10, days: 1}
+  - {golive_support_demand_id: GLS-000004, scenario_id: SCN-000003, project_id: PRJ-000003, period: "2026-10", support_type: command_center_support, role_id: ROL-000001, people_count: 1, hours_per_person_per_day: 6, days: 3}
+  - {golive_support_demand_id: GLS-000005, scenario_id: SCN-000003, project_id: PRJ-000003, period: "2026-10", support_type: hypercare_support, role_id: ROL-000006, people_count: 1, hours_per_person_per_day: 3, days: 8}
+  - {golive_support_demand_id: GLS-000006, scenario_id: SCN-000003, project_id: PRJ-000003, period: "2026-11", support_type: hypercare_support, role_id: ROL-000006, people_count: 1, hours_per_person_per_day: 2, days: 10}
+  - {golive_support_demand_id: GLS-000007, scenario_id: SCN-000002, project_id: PRJ-000002, period: "2026-11", support_type: rehearsal, role_id: ROL-000004, people_count: 1, hours_per_person_per_day: 4, days: 2}
+  - {golive_support_demand_id: GLS-000008, scenario_id: SCN-000002, project_id: PRJ-000002, period: "2026-11", support_type: cutover_support, role_id: ROL-000004, people_count: 2, hours_per_person_per_day: 8, days: 1}
+  - {golive_support_demand_id: GLS-000009, scenario_id: SCN-000002, project_id: PRJ-000002, period: "2026-11", support_type: hypercare_support, role_id: ROL-000001, people_count: 1, hours_per_person_per_day: 2, days: 10}
+  - {golive_support_demand_id: GLS-000010, scenario_id: SCN-000002, project_id: PRJ-000002, period: "2026-12", support_type: hypercare_support, role_id: ROL-000001, people_count: 1, hours_per_person_per_day: 2, days: 5}
+  - {golive_support_demand_id: GLS-000011, scenario_id: SCN-000001, project_id: PRJ-000001, period: "2026-12", support_type: hypercare_support, role_id: ROL-000001, people_count: 1, hours_per_person_per_day: 2, days: 10}
+  - {golive_support_demand_id: GLS-000012, scenario_id: SCN-000004, project_id: PRJ-000106, period: "2027-01", support_type: command_center_support, role_id: ROL-000001, people_count: 2, hours_per_person_per_day: 6, days: 3}
+  - {golive_support_demand_id: GLS-000013, scenario_id: SCN-000004, project_id: PRJ-000106, period: "2027-02", support_type: hypercare_support, role_id: ROL-000006, people_count: 1, hours_per_person_per_day: 3, days: 10}

@@ -1,0 +1,1 @@
+{"event_id":"EVT-999999","event_type":"capacity.headcount_decided","occurred_at":"2026-10-06T12:00:00Z","actor_id":"STG-000001","actor_type":"system","subject_type":"capacity_snapshot","subject_id":"CAP-000001","payload":{"period":"2026-10"},"source_repo":"implementation-capacity-and-org-design","schema_version":"1.0.0"}

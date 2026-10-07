@@ -1,0 +1,42 @@
+# Staffing trigger rules (STG). A trigger means operational conditions justify a staffing
+# conversation. It never means "hire someone", and nothing in R2 decides staffing.
+# Every threshold and persistence count is read from parameters.yaml.
+# Each is a user-configurable parameter.
+# Each is a proposed design value, not a measured result, and none is presented as a norm.
+version: "1.0.0"
+triggers:
+  - staffing_trigger_id: STG-000001
+    name: sustained_load_pressure
+    description: Demand stays at or above the upper load-ratio threshold for a role across consecutive periods.
+    above_condition: "load_ratio_state == defined and load_ratio >= load_ratio_upper_threshold"
+    below_condition: "load_ratio_state == defined and load_ratio <= load_ratio_lower_threshold, or demand_hours == 0"
+    fire_after_parameter: trigger_fire_after_periods
+    clear_after_parameter: trigger_clear_after_periods
+    recommendation_type: begin_staffing_review
+    labels: [user-configurable parameter, "proposed design value, not a measured result"]
+  - staffing_trigger_id: STG-000002
+    name: role_coverage_gap
+    description: A role has demand in a period but zero supply, so the load ratio is undefined.
+    above_condition: "load_ratio_state == undefined_no_capacity and demand_hours > 0"
+    below_condition: "supply_hours > 0 or demand_hours == 0"
+    fire_after_parameter: coverage_fire_after_periods
+    clear_after_parameter: coverage_clear_after_periods
+    recommendation_type: review_role_coverage
+    labels: [user-configurable parameter, "proposed design value, not a measured result"]
+states:
+  - {state: not_triggered, meaning: "The above condition is not met, or it was met and has since cleared."}
+  - {state: watch, meaning: "The above condition is met, but not yet for enough consecutive periods to fire."}
+  - {state: triggered, meaning: "The rule fired in this period or an earlier one and has not cleared."}
+  - {state: clearing, meaning: "Triggered, and the below condition is met, but not yet for enough consecutive periods to clear."}
+combined_state_precedence: [triggered, clearing, watch, not_triggered]
+recommendation_types:
+  - {type: begin_staffing_review, content: "Begin a staffing review for this role: confirm the forecast, then discuss workload rebalance, role mix, and hiring timing."}
+  - {type: review_role_coverage, content: "Review coverage for this role: demand exists with no available hours. Confirm the forecast and decide who covers the work."}
+  - {type: investigate_role_mix, content: "Investigate whether a different role mix would cover the forecast demand."}
+  - {type: consider_workload_rebalance, content: "Consider rebalancing workload across people or periods."}
+  - {type: review_hiring_timing, content: "Review hiring timing against the configured hiring lead time and ramp duration."}
+  - {type: validate_forecast_assumptions, content: "Validate the forecast assumptions behind this signal before acting on it."}
+never_allowed:
+  - Naming a person to hire, release, promote, or reassign
+  - Stating that budget is approved
+  - Stating that the organization must be restructured

@@ -1,0 +1,21 @@
+# Training capacity: how training demand becomes trainer workload.
+# Training demand reaches R2 only from the enablement repository (R4, V4 decision D10).
+# R4 is not built yet, so v0.1 reads training-demand records that are interface fixtures
+# in the planned R4 shape. R2 defines no curriculum. Default class size, session length,
+# and preparation hours come from parameters.yaml; each is a user-configurable parameter
+# and a proposed design value, not a measured result.
+version: "1.0.0"
+formulas:
+  - {name: cohorts_required, formula: "ceil(learner_count / class_size)", unit: cohorts}
+  - {name: sessions_per_cohort, formula: "ceil(track_hours / session_length_hours)", unit: sessions}
+  - {name: sessions_required, formula: "cohorts_required * sessions_per_cohort", unit: sessions}
+  - {name: trainer_delivery_hours, formula: "cohorts_required * track_hours", unit: hours}
+  - {name: trainer_preparation_hours, formula: "sessions_required * prep_hours_per_session", unit: hours}
+  - {name: trainer_assessment_hours, formula: "cohorts_required * assessment_hours_per_cohort", unit: hours}
+  - {name: trainer_hours, formula: "trainer_delivery_hours + trainer_preparation_hours + trainer_assessment_hours", unit: hours}
+  - {name: learner_seat_hours, formula: "learner_count * track_hours", unit: learner_hours}
+rules:
+  - Delivery hours use the track's real contact time per cohort (track_hours), not sessions times session length, because the last session of a cohort may be shorter.
+  - learner_seat_hours describe learners' time. They are never trainer workload and never enter demand.
+  - Only trainer_hours of records with capacity_inclusion_method authoritative_workload enter demand, under the trainer's role.
+  - A training record already covered by an R1 task or an R3 Capacity Inputs row is excluded_to_prevent_double_count and names the covering record.

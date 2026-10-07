@@ -1,0 +1,125 @@
+# R2 parameters: every scalar setting the reference calculator reads, in one place.
+# Every numeric value in this file is a user-configurable parameter and a proposed design value, not a measured result.
+# None is a benchmark, a target, or a healthy level for any organization.
+# Change them to fit your own team.
+version: "1.0.0"
+parameters:
+  - parameter_id: calculation_as_of_at
+    description: The fixed time every snapshot, trigger, and staffing timing is evaluated at, so the same inputs always give the same outputs.
+    unit: datetime_utc
+    value: "2026-10-06T12:00:00Z"
+    labels: [user-configurable parameter]
+    source: R2 design choice
+    effective_version: "1.0.0"
+  - parameter_id: planning_horizon_start
+    description: First planning period (inclusive).
+    unit: period_month
+    value: "2026-09"
+    labels: [user-configurable parameter]
+    source: R2 design choice
+    effective_version: "1.0.0"
+  - parameter_id: planning_horizon_end
+    description: Last planning period (inclusive).
+    unit: period_month
+    value: "2027-06"
+    labels: [user-configurable parameter]
+    source: R2 design choice
+    effective_version: "1.0.0"
+  - parameter_id: standard_working_hours_per_period
+    description: Default scheduled working hours for one full-time person in one monthly period, used when a supply record gives none.
+    unit: hours
+    value: 160  # proposed design value, not a measured result
+    labels: [user-configurable parameter, "proposed design value, not a measured result"]
+    source: R2 design choice
+    effective_version: "1.0.0"
+  - parameter_id: load_ratio_upper_threshold
+    description: Load ratio at or above which a period counts toward the sustained-load staffing trigger (STG-000001).
+    unit: ratio
+    value: 1.10  # proposed design value, not a measured result
+    labels: [user-configurable parameter, "proposed design value, not a measured result"]
+    source: R2 design choice
+    effective_version: "1.0.0"
+  - parameter_id: load_ratio_lower_threshold
+    description: Load ratio at or below which a period counts toward clearing a triggered STG-000001 (hysteresis band between the two thresholds).
+    unit: ratio
+    value: 0.95  # proposed design value, not a measured result
+    labels: [user-configurable parameter, "proposed design value, not a measured result"]
+    source: R2 design choice
+    effective_version: "1.0.0"
+  - parameter_id: trigger_fire_after_periods
+    description: Consecutive periods above the upper threshold before STG-000001 fires (persistence).
+    unit: periods
+    value: 2  # proposed design value, not a measured result
+    labels: [user-configurable parameter, "proposed design value, not a measured result"]
+    source: R2 design choice
+    effective_version: "1.0.0"
+  - parameter_id: trigger_clear_after_periods
+    description: Consecutive periods at or below the lower threshold before a triggered STG-000001 clears.
+    unit: periods
+    value: 2  # proposed design value, not a measured result
+    labels: [user-configurable parameter, "proposed design value, not a measured result"]
+    source: R2 design choice
+    effective_version: "1.0.0"
+  - parameter_id: coverage_fire_after_periods
+    description: Consecutive periods with demand but zero supply for a role before STG-000002 fires.
+    unit: periods
+    value: 1  # proposed design value, not a measured result
+    labels: [user-configurable parameter, "proposed design value, not a measured result"]
+    source: R2 design choice
+    effective_version: "1.0.0"
+  - parameter_id: coverage_clear_after_periods
+    description: Consecutive periods with supply (or no demand) before a triggered STG-000002 clears.
+    unit: periods
+    value: 1  # proposed design value, not a measured result
+    labels: [user-configurable parameter, "proposed design value, not a measured result"]
+    source: R2 design choice
+    effective_version: "1.0.0"
+  - parameter_id: hiring_lead_time_days
+    description: Days from starting a staffing process to a new person's first day, used only for staffing timing.
+    unit: days
+    value: 60  # proposed design value, not a measured result
+    labels: [user-configurable parameter, "proposed design value, not a measured result"]
+    source: R2 design choice
+    effective_version: "1.0.0"
+  - parameter_id: ramp_duration_days
+    description: Days from a new person's first day until they are fully productive, used only for staffing timing. Ramp is owned by the enablement repository (R4); this is an interface default until R4 supplies it.
+    unit: days
+    value: 120  # proposed design value, not a measured result
+    labels: [user-configurable parameter, "proposed design value, not a measured result"]
+    source: R4 interface fixture
+    effective_version: "1.0.0"
+  - parameter_id: default_class_size
+    description: Learners per training cohort when a training-demand record gives no class size.
+    unit: learners
+    value: 12  # proposed design value, not a measured result
+    labels: [user-configurable parameter, "proposed design value, not a measured result"]
+    source: R2 design choice
+    effective_version: "1.0.0"
+  - parameter_id: default_session_length_hours
+    description: Length of one training session when a training-demand record gives none.
+    unit: hours
+    value: 2  # proposed design value, not a measured result
+    labels: [user-configurable parameter, "proposed design value, not a measured result"]
+    source: R2 design choice
+    effective_version: "1.0.0"
+  - parameter_id: default_prep_hours_per_session
+    description: Trainer preparation hours per delivered session when a training-demand record gives none.
+    unit: hours
+    value: 1  # proposed design value, not a measured result
+    labels: [user-configurable parameter, "proposed design value, not a measured result"]
+    source: R2 design choice
+    effective_version: "1.0.0"
+  - parameter_id: hours_decimal_places
+    description: Decimal places kept for every hour value the calculator produces.
+    unit: count
+    value: 2
+    labels: [user-configurable parameter]
+    source: R2 design choice
+    effective_version: "1.0.0"
+  - parameter_id: ratio_decimal_places
+    description: Decimal places kept for load_ratio.
+    unit: count
+    value: 4
+    labels: [user-configurable parameter]
+    source: R2 design choice
+    effective_version: "1.0.0"

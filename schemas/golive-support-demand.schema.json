@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:implementation-capacity-and-org-design:0.1.0:golive-support-demand",
+  "title": "Launch-support demand",
+  "description": "Implementation-team hours consumed around one launch (registry prefix GLS): rehearsal, cutover support, command-center support, or hypercare support. support_hours = people_count x hours_per_person_per_day x days. Workload only: R1 owns launch readiness, cutover logic, and the go or no-go decision, and R2 records none of them. Examples are an illustrative example using synthetic data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "golive_support_demand_id",
+    "scenario_id",
+    "project_id",
+    "period",
+    "support_type",
+    "role_id",
+    "people_count",
+    "hours_per_person_per_day",
+    "days",
+    "support_hours",
+    "capacity_inclusion_method",
+    "value_basis",
+    "precedence_rank",
+    "schema_version"
+  ],
+  "properties": {
+    "golive_support_demand_id": {
+      "type": "string",
+      "pattern": "^GLS-[0-9]{6}$"
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^SCN-[0-9]{6}$"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^PRJ-[0-9]{6}$"
+    },
+    "period": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+      "description": "Monthly planning period, YYYY-MM."
+    },
+    "support_type": {
+      "type": "string",
+      "enum": [
+        "rehearsal",
+        "cutover_support",
+        "command_center_support",
+        "hypercare_support"
+      ]
+    },
+    "role_id": {
+      "type": "string",
+      "pattern": "^ROL-[0-9]{6}$"
+    },
+    "people_count": {
+      "type": "integer",
+      "x-unit": "people",
+      "description": "People from this role supporting.",
+      "minimum": 1
+    },
+    "hours_per_person_per_day": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Hours per person per day.",
+      "minimum": 0
+    },
+    "days": {
+      "type": "number",
+      "x-unit": "days",
+      "description": "Support days in the period.",
+      "minimum": 0
+    },
+    "support_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "people_count x hours_per_person_per_day x days.",
+      "minimum": 0
+    },
+    "capacity_inclusion_method": {
+      "type": "string",
+      "enum": [
+        "authoritative_workload",
+        "informational_only",
+        "excluded_to_prevent_double_count"
+      ],
+      "description": "Only authoritative_workload enters demand."
+    },
+    "value_basis": {
+      "type": "string",
+      "enum": [
+        "forecast",
+        "actual"
+      ]
+    },
+    "precedence_rank": {
+      "type": "integer",
+      "x-unit": "rank",
+      "description": "2 = approved upstream component.",
+      "minimum": 2
+    },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    }
+  }
+}

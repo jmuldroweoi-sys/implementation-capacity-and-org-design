@@ -1,0 +1,23 @@
+# Organization-stage profile:
+# Early scale. illustrative example: describes one organization stage for capacity planning.
+# It is descriptive, not a benchmark.
+# The stage is selected by a named person and recorded with an org_profile.selected event;
+# R2 never derives it from headcount or changes it on its own.
+# Every number in this file is a user-configurable parameter and a proposed design value, not a measured result.
+org_profile_id: ORG-000002
+org_stage: early_scale
+name: "Early scale"
+version: "1.0.0"
+definition: "A small team of generalists runs implementations as a distinct activity."
+selection_rule: Selected by a named person. R2 may surface signals that suggest reviewing the stage; it never changes the stage.
+typical_operating_model:
+  - Several projects run at once and compete for the same people
+  - Delivery varies between people
+  - A new hire's ramp consumes experienced people's time
+signals_that_suggest_reviewing_the_stage:
+  - Specialized roles begin to form
+  - Forecasts are needed earlier than the hiring lead time
+capacity_review_cadence: "monthly"
+planning_settings:
+  max_active_projects_per_role: 3  # concurrency observation threshold; user-configurable parameter; proposed design value, not a measured result
+labels: [illustrative example, user-configurable parameter, "proposed design value, not a measured result"]

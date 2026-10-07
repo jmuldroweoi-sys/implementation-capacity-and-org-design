@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:implementation-capacity-and-org-design:0.1.0:training-capacity",
+  "title": "Training capacity",
+  "description": "Trainer workload calculated from one training-demand record (registry prefix TRC). cohorts_required = ceil(learner_count / class_size); sessions_per_cohort = ceil(track_hours / session_length_hours); sessions_required = cohorts_required x sessions_per_cohort; trainer_hours = delivery + preparation + assessment. learner_seat_hours are learners' time, carry the learner_hours unit, and never enter demand. Examples are an illustrative example using synthetic data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "training_capacity_id",
+    "training_demand_id",
+    "scenario_id",
+    "period",
+    "trainer_role_id",
+    "learner_count",
+    "class_size",
+    "class_size_source",
+    "track_hours",
+    "session_length_hours",
+    "session_length_source",
+    "prep_hours_per_session",
+    "prep_source",
+    "assessment_hours_per_cohort",
+    "cohorts_required",
+    "sessions_per_cohort",
+    "sessions_required",
+    "trainer_delivery_hours",
+    "trainer_preparation_hours",
+    "trainer_assessment_hours",
+    "trainer_hours",
+    "learner_seat_hours",
+    "capacity_inclusion_method",
+    "precedence_rank",
+    "schema_version"
+  ],
+  "properties": {
+    "training_capacity_id": {
+      "type": "string",
+      "pattern": "^TRC-[0-9]{6}$"
+    },
+    "training_demand_id": {
+      "type": "string",
+      "pattern": "^TRD-[0-9]{6}$"
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^SCN-[0-9]{6}$"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^PRJ-[0-9]{6}$"
+    },
+    "period": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+      "description": "Monthly planning period, YYYY-MM."
+    },
+    "trainer_role_id": {
+      "type": "string",
+      "pattern": "^ROL-[0-9]{6}$"
+    },
+    "learner_count": {
+      "type": "integer",
+      "x-unit": "learners",
+      "description": "From the training demand.",
+      "minimum": 0
+    },
+    "class_size": {
+      "type": "integer",
+      "x-unit": "learners",
+      "description": "Record value or default_class_size.",
+      "minimum": 1
+    },
+    "class_size_source": {
+      "type": "string",
+      "enum": [
+        "record",
+        "default_parameter"
+      ]
+    },
+    "track_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Contact hours per cohort.",
+      "minimum": 0
+    },
+    "session_length_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Record value or default_session_length_hours.",
+      "minimum": 0
+    },
+    "session_length_source": {
+      "type": "string",
+      "enum": [
+        "record",
+        "default_parameter"
+      ]
+    },
+    "prep_hours_per_session": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Record value or default_prep_hours_per_session.",
+      "minimum": 0
+    },
+    "prep_source": {
+      "type": "string",
+      "enum": [
+        "record",
+        "default_parameter"
+      ]
+    },
+    "assessment_hours_per_cohort": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Assessment or remediation hours per cohort.",
+      "minimum": 0
+    },
+    "cohorts_required": {
+      "type": "integer",
+      "x-unit": "cohorts",
+      "description": "ceil(learner_count / class_size).",
+      "minimum": 0
+    },
+    "sessions_per_cohort": {
+      "type": "integer",
+      "x-unit": "sessions",
+      "description": "ceil(track_hours / session_length_hours).",
+      "minimum": 1
+    },
+    "sessions_required": {
+      "type": "integer",
+      "x-unit": "sessions",
+      "description": "cohorts_required x sessions_per_cohort.",
+      "minimum": 0
+    },
+    "trainer_delivery_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "cohorts_required x track_hours.",
+      "minimum": 0
+    },
+    "trainer_preparation_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "sessions_required x prep_hours_per_session.",
+      "minimum": 0
+    },
+    "trainer_assessment_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "cohorts_required x assessment_hours_per_cohort.",
+      "minimum": 0
+    },
+    "trainer_hours": {
+      "type": "number",
+      "x-unit": "hours",
+      "description": "Delivery + preparation + assessment. The only training value that can enter demand.",
+      "minimum": 0
+    },
+    "learner_seat_hours": {
+      "type": "number",
+      "x-unit": "learner_hours",
+      "description": "learner_count x track_hours. Learners' time; never trainer workload, never demand.",
+      "minimum": 0
+    },
+    "capacity_inclusion_method": {
+      "type": "string",
+      "enum": [
+        "authoritative_workload",
+        "informational_only",
+        "excluded_to_prevent_double_count"
+      ],
+      "description": "Only authoritative_workload enters demand."
+    },
+    "covered_by": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}-[0-9]{6}$"
+    },
+    "precedence_rank": {
+      "type": "integer",
+      "x-unit": "rank",
+      "description": "2 = approved upstream component.",
+      "minimum": 2
+    },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    }
+  }
+}

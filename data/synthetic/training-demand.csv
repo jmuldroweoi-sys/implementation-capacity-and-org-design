@@ -1,0 +1,8 @@
+training_demand_id,scenario_id,project_id,period,track_label,learner_count,class_size,track_hours,session_length_hours,prep_hours_per_session,assessment_hours_per_cohort,trainer_role_id,capacity_inclusion_method,covered_by,source,schema_version
+TRD-000001,SCN-000003,PRJ-000003,2026-09,End-user training,30,12,4,2,1,0,ROL-000005,excluded_to_prevent_double_count,TSK-000024,r4_interface_fixture,0.1.0
+TRD-000002,SCN-000003,PRJ-000003,2026-11,Administrator refresher,8,10,3,1.5,0.5,0.5,ROL-000005,authoritative_workload,,r4_interface_fixture,0.1.0
+TRD-000003,SCN-000003,PRJ-000104,2027-02,End-user training,45,12,6,2,1,1,ROL-000005,authoritative_workload,,r4_interface_fixture,0.1.0
+TRD-000004,SCN-000004,,2026-11,New specialist onboarding,4,6,24,4,2,2,ROL-000005,authoritative_workload,,r4_interface_fixture,0.1.0
+TRD-000005,SCN-000004,PRJ-000107,2027-02,End-user training,60,15,4,2,1,0,ROL-000005,authoritative_workload,,r4_interface_fixture,0.1.0
+TRD-000006,SCN-000001,PRJ-000001,2026-11,End-user training,10,,4,,,0,ROL-000005,authoritative_workload,,r4_interface_fixture,0.1.0
+TRD-000007,SCN-000002,PRJ-000002,2026-11,End-user training,25,10,6,3,1.5,1,ROL-000001,authoritative_workload,,r4_interface_fixture,0.1.0
